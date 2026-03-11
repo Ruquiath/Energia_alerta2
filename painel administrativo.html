@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Administrativo - Energia Alerta</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    background:#eef2f7;
+}
+
+/* HEADER */
+
+header{
+    background:linear-gradient(90deg,#ff9800,#ff5722);
+    color:white;
+    padding:18px;
+    font-size:22px;
+    font-weight:bold;
+    text-align:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* CONTAINER */
+
+.container{
+    padding:25px;
+    max-width:1000px;
+    margin:auto;
+}
+
+/* CONTADOR */
+
+.contador{
+    background:white;
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:20px;
+    font-size:18px;
+    font-weight:bold;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* CARDS */
+
+.card{
+    background:white;
+    padding:18px;
+    border-radius:10px;
+    margin-bottom:18px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.1);
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:scale(1.01);
+}
+
+/* STATUS */
+
+.urgente{
+    border-left:6px solid red;
+    background:#ffe9e9;
+}
+
+.pendente{
+    border-left:6px solid orange;
+}
+
+.resolvido{
+    border-left:6px solid green;
+    background:#e8ffe8;
+}
+
+.status{
+    font-weight:bold;
+}
+
+/* FOTO */
+
+.fotoDenuncia{
+    width:100%;
+    max-width:280px;
+    margin-top:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+/* BOTÕES */
+
+button{
+    padding:10px 14px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:10px;
+    font-size:14px;
+}
+
+.resolver{
+    background:green;
+    color:white;
+}
+
+.reabrir{
+    background:#dc3545;
+    color:white;
+}
+
+/* ÍCONES */
+
+.icone{
+    margin-right:6px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<i class="fa-solid fa-bolt"></i> Painel Administrativo - Energia Alerta
+</header>
+
+<div class="container">
+
+<div class="contador" id="contadorUrgente"></div>
+
+<div id="listaDenuncias"></div>
+
+</div>
+
+<script>
+
+function carregarDenuncias(){
+
+let denuncias = JSON.parse(localStorage.getItem("denunciasEnergia")) || [];
+
+let lista = document.getElementById("listaDenuncias");
+let contadorUrgente = document.getElementById("contadorUrgente");
+
+lista.innerHTML = "";
+
+let urgentes = denuncias.filter(d => d.status === "URGENTE");
+
+contadorUrgente.innerHTML =
+`<i class="fa-solid fa-triangle-exclamation"></i> Alertas Urgentes: ${urgentes.length}`;
+
+
+denuncias.forEach((d,index)=>{
+
+let card = document.createElement("div");
+card.classList.add("card");
+
+/* ESTILO POR STATUS */
+
+if(d.status === "URGENTE"){
+card.classList.add("urgente");
+}
+
+else if(d.status === "RESOLVIDO"){
+card.classList.add("resolvido");
+}
+
+else{
+card.classList.add("pendente");
+}
+
+/* CONTEÚDO */
+
+card.innerHTML = `
+
+<p><i class="fa-solid fa-user icone"></i><strong>Nome:</strong> ${d.nome}</p>
+
+<p><i class="fa-solid fa-location-dot icone"></i><strong>Bairro:</strong> ${d.bairro}</p>
+
+<p><i class="fa-solid fa-screwdriver-wrench icone"></i><strong>Tipo:</strong> ${d.tipo}</p>
+
+<p><i class="fa-solid fa-file-lines icone"></i><strong>Descrição:</strong> ${d.descricao}</p>
+
+<p><i class="fa-solid fa-calendar icone"></i><strong>Data:</strong> ${d.data}</p>
+
+<p class="status"><i class="fa-solid fa-circle-info icone"></i>Status: ${d.status}</p>
+
+${d.foto ? `<img src="${d.foto}" class="fotoDenuncia">` : ""}
+
+`;
+
+/* BOTÃO */
+
+let botao = document.createElement("button");
+
+if(d.status === "RESOLVIDO"){
+
+botao.innerHTML = `<i class="fa-solid fa-rotate"></i> Reabrir Problema`;
+botao.classList.add("reabrir");
+
+}else{
+
+botao.innerHTML = `<i class="fa-solid fa-check"></i> Marcar como Resolvido`;
+botao.classList.add("resolver");
+
+}
+
+botao.onclick=function(){
+atualizarStatus(index);
+};
+
+card.appendChild(botao);
+
+lista.appendChild(card);
+
+});
+
+}
+
+
+/* ATUALIZAR STATUS */
+
+function atualizarStatus(index){
+
+let denuncias = JSON.parse(localStorage.getItem("denunciasEnergia")) || [];
+
+if(denuncias[index].status === "RESOLVIDO"){
+
+denuncias[index].status = "PENDENTE";
+
+}else{
+
+denuncias[index].status = "RESOLVIDO";
+
+}
+
+localStorage.setItem("denunciasEnergia",JSON.stringify(denuncias));
+
+carregarDenuncias();
+
+}
+
+
+carregarDenuncias();
+
+/* ATUALIZA AUTOMATICAMENTE */
+
+setInterval(carregarDenuncias,3000);
+
+/* ATUALIZA ENTRE PÁGINAS */
+
+window.addEventListener("storage",function(){
+
+carregarDenuncias();
+
+});
+
+</script>
+
+</body>
+</html>
