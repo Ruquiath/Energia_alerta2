@@ -35,7 +35,8 @@
         }
 
         .pesquisa-container input {
-            width: 50%;
+            width: 60%;
+min-width:500px
             padding: 12px;
             font-size: 16px;
             border-radius: 8px;
@@ -49,10 +50,12 @@
             gap: 30px;
             margin-top: 40px;
             padding: 0 20px;
+flex-wrap:wrap;
         }
 
         .campo {
-            width: 60%;
+            width: 45%;
+min-width:320px;
         }
 
         .titulo {
@@ -92,6 +95,54 @@
         text-decoration-line: none;
         text-decoration-color: white;
     }
+/* RESPONSIVIDADE */
+
+@media (max-width: 900px){
+
+.resultados{
+    flex-direction: column;
+    align-items: center;
+}
+
+.campo{
+    width: 90%;
+}
+
+.pesquisa-container input{
+    width: 90%;
+}
+
+.box{
+    height: 400px;
+}
+
+header{
+    font-size:16px;
+}
+
+img{
+    height:40px;
+}
+
+}
+
+@media (max-width: 480px){
+
+.box{
+    height:350px;
+    padding:20px;
+}
+
+header{
+    flex-direction:column;
+    gap:10px;
+}
+
+h3{
+    font-size:16px;
+}
+
+}
     </style>
 </head>
 
@@ -204,3 +255,4 @@ inputPesquisa.addEventListener("input", mostrarDenuncias);
 
 </body>
 </html>
+
