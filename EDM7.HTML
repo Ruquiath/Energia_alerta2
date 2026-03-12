@@ -9,7 +9,6 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f4f6f9;
-            justify-content: center;
         }
 
         /* HEADER */
@@ -36,7 +35,7 @@
 
         .pesquisa-container input {
             width: 60%;
-min-width:500px
+max-width:500px
             padding: 12px;
             font-size: 16px;
             border-radius: 8px;
@@ -58,13 +57,6 @@ flex-wrap:wrap;
 min-width:320px;
         }
 
-        .titulo {
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
         .box {
             background-color: white;
             height: 500px;
@@ -79,16 +71,12 @@ min-width:320px;
             
         }
         
-        
-        .eu{
-            justify-content: center;
-        }
         h2{
             text-align: center;
         }
          a{
         text-decoration-line: none;
-        text-decoration-color: white;
+        color: white;
     }
 /* RESPONSIVIDADE */
 
@@ -145,11 +133,9 @@ h3{
 
     <!-- HEADER -->
      <header>
-    <div>
-        <a href="EDM3.html">⬅</a> 
-</div>
+<a href="EDM3.html">⬅</a> 
 <h3>  MAPA DE PROBLEMA </h3>
-<img src="EUNICE-removebg-preview.png" alt="" width="7%">
+<img src="EUNICE-removebg-preview.png" alt="">
 </header>
 
     <!-- INPUT DE PESQUISA -->
@@ -162,7 +148,7 @@ h3{
 
         <!-- CAMPO ESQUERDO -->
         <div class="campo">
-            <div class="titulo">Bairro com problemas por resolver</div>
+            <h4>Bairro com problemas por resolver</h4>
             <div class="box">
                 <!-- Resultados aparecem aqui -->
             </div>
@@ -170,7 +156,7 @@ h3{
 
         <!-- CAMPO DIREITO -->
         <div class="campo">
-            <div class="titulo">Bairros com problemas resolvidos</div>
+            <h4>Bairros com problemas resolvidos<h4>
             <div class="box">
                 <!-- Resultados aparecem aqui -->
             </div>
@@ -250,5 +236,6 @@ inputPesquisa.addEventListener("input", mostrarDenuncias);
 
 </body>
 </html>
+
 
 
